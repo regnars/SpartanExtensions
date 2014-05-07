@@ -138,9 +138,9 @@ namespace SpartanExtensions
                     value, UnexpectedObjectValueExceptionReasons.EmptyGuid);
         }
 
-        public static void GuardAgainstEmptyEnumerable<T, TProp>(this T obj, Expression<Func<T, TProp>> field)
+        public static void GuardAgainstEmptyEnumerable<T, TProp, TEnumerableItem>(this T obj, Expression<Func<T, TProp>> field)
         {
-            var enumerable = (IEnumerable<TProp>)obj.GetPropertyValue(field);
+            var enumerable = (IEnumerable<TEnumerableItem>)obj.GetPropertyValue(field);
             if (!enumerable.Any())
                 throw new UnexpectedObjectValueException<T>(field.GetFieldName(),
                     null, UnexpectedObjectValueExceptionReasons.EmptyEnumerable);
