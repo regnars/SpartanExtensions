@@ -8,6 +8,7 @@
         NegativeOrZeroValue,
         MustBePositive,
         StringIsNullOrEmpty,
+        StringIsNullOrWhiteSpace,
         DateValueMustBeGreaterThanMinDate,
         EmptyGuid,
         EmptyEnumerable
