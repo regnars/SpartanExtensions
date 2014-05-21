@@ -27,7 +27,7 @@ namespace SpartanExtensions
         {
             if (data == null || data.Count() == 0)
             {
-                return null;
+                return new MemoryStream();
             }
 
             if (headers == null || headers.Count() == 0)
