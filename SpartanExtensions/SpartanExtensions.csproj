@@ -47,8 +47,12 @@
     <Compile Include="EventHandlerExtensions.cs" />
     <Compile Include="Exceptions\UnexpectedObjectValueException.cs" />
     <Compile Include="Exceptions\UnexpectedObjectValueExceptionReasons.cs" />
+    <Compile Include="UploadedFiles\UploadedFileException.cs" />
     <Compile Include="ExpressionExtensions.cs" />
     <Compile Include="FileInfoExtensions.cs" />
+    <Compile Include="ByteArrayExtensions.cs" />
+    <Compile Include="UploadedFiles\UploadedFileValidationConfiguration.cs" />
+    <Compile Include="UploadedFiles\UploadedFileValidator.cs" />
     <Compile Include="Guard.cs" />
     <Compile Include="MethodBaseExtensions.cs" />
     <Compile Include="ObjectExtensions.cs" />
