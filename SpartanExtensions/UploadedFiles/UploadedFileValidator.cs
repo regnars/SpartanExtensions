@@ -1,11 +1,15 @@
-﻿using System.IO;
+﻿using System;
+using Microsoft.Win32;
+using System.IO;
 
 namespace SpartanExtensions.UploadedFiles
 {
     public class UploadedFileValidator
     {
+        public string FileMimeType { get; private set; }
+        public string FileExtensionByMimeType { get; private set; }
         private FileInfo FileInfo { get; set; }
-        public string FileExtension { get; private set; }
+        public string FileExtensionByFileName { get; private set; }
         public string FileNameWithoutExtension { get; private set; }
         public string FileNameWithExtension { get; private set; }
         public string FilePath { get; private set; }
@@ -25,18 +29,52 @@ namespace SpartanExtensions.UploadedFiles
             FileNameWithoutExtension = Path.GetFileNameWithoutExtension(FilePath);
             this.GuardAgainstStringIsNullOrEmpty(ufv => ufv.FileNameWithoutExtension);
 
-            FileExtension = Path.GetExtension(FilePath).Replace(".", string.Empty);
-            this.GuardAgainstStringIsNullOrEmpty(ufv => ufv.FileExtension);
+            FileExtensionByFileName = Path.GetExtension(FilePath).Replace(".", string.Empty);
+            this.GuardAgainstStringIsNullOrEmpty(ufv => ufv.FileExtensionByFileName);
+
+            FileMimeType = GetMimeType();
+            this.GuardAgainstStringIsNullOrEmpty(ufv => ufv.FileMimeType);
+
+            FileExtensionByMimeType = GetExtensionByMimeType(FileMimeType);
 
             ValidationConfiguration = validationConfiguration;
             this.GuardAgainstNull(ufv => ufv.ValidationConfiguration);
         }
 
+        private string GetExtensionByMimeType(string mimeType)
+        {
+            var key = Registry.ClassesRoot.OpenSubKey(@"MIME\Database\Content Type\" + mimeType, false);
+            var value = key != null ? key.GetValue("Extension", null) : null;
+            return value != null ? value.ToString().Replace(".", string.Empty) : string.Empty;
+        }
+
+        private string GetMimeType()
+        {
+            return File.ReadAllBytes(FilePath).GetMimeType();
+        }
+
+        public void ValidateExtension()
+        {
+            ValidateAgainstAllowedExtensions();
+            ValidateSpecifiedExtensionInFileNameAgainstActualExtension();
+        }
+
         public void ValidateAgainstAllowedExtensions()
         {
-            if (!ValidationConfiguration.AllowedFileTypeExtensions.Contains(FileExtension))
+            if (!ValidationConfiguration.AllowedFileTypeExtensions.Contains(FileExtensionByFileName))
                 throw new UploadedFileException(string.Format("\"{0}\" is not an allowed file extension - \"{1}\"",
-                    FileExtension, string.Join(",", ValidationConfiguration.AllowedFileTypeExtensions)));
+                    FileExtensionByFileName, string.Join(",", ValidationConfiguration.AllowedFileTypeExtensions)));
+        }
+
+        public void ValidateSpecifiedExtensionInFileNameAgainstActualExtension()
+        {
+            if (String.IsNullOrEmpty(FileExtensionByMimeType))
+                throw new UploadedFileException(string.Format("File's \"{0}\" type is not recognised.", FileNameWithExtension));
+
+            if (!String.IsNullOrEmpty(FileExtensionByMimeType)
+                && FileExtensionByFileName != FileExtensionByMimeType)
+                throw new UploadedFileException(string.Format("File extension \"{0}\" specified in file name \"{1}\" does not comply with the actual file extension \"{2}\".",
+                    FileExtensionByFileName, FileNameWithExtension, FileExtensionByMimeType));
         }
 
         public void ValidateFileSize()
