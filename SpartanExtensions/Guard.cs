@@ -70,6 +70,20 @@ namespace SpartanExtensions
                     variableName, methodName));
         }
 
+        public static void AgainstStringIsNOTNullOrEmpty(string value, string variableName, string methodName)
+        {
+            if (!String.IsNullOrEmpty(value))
+                throw new Exception(string.Format("String must be null or empty. Variable- {0}. Method- {1}.",
+                    variableName, methodName));
+        }
+
+        public static void AgainstStringIsNullOrWhiteSpace(string value, string variableName, string methodName)
+        {
+            if (String.IsNullOrWhiteSpace(value))
+                throw new Exception(string.Format("String cannot be null, empty, or consist only of white-space characters. Variable- {0}, Method- {1}.",
+                    variableName, methodName));
+        }
+
         public static void AgainstEmptyGuid(Guid value, string variableName, string methodName)
         {
             if (value == Guid.Empty)
@@ -107,6 +121,22 @@ namespace SpartanExtensions
             if (String.IsNullOrEmpty(value))
                 throw new UnexpectedObjectValueException<T>(field.GetFieldName(),
                     value, UnexpectedObjectValueExceptionReasons.StringIsNullOrEmpty);
+        }
+
+        public static void GuardAgainstStringIsNOTNullOrEmpty<T, TProp>(this T obj, Expression<Func<T, TProp>> field)
+        {
+            var value = (string)obj.GetPropertyValue(field);
+            if (!String.IsNullOrEmpty(value))
+                throw new UnexpectedObjectValueException<T>(field.GetFieldName(),
+                    value, UnexpectedObjectValueExceptionReasons.StringIsNOTNullOrEmpty);
+        }
+
+        public static void GuardAgainstStringIsNullOrWhiteSpace<T, TProp>(this T obj, Expression<Func<T, TProp>> field)
+        {
+            var value = (string)obj.GetPropertyValue(field);
+            if(String.IsNullOrWhiteSpace(value))
+                throw new UnexpectedObjectValueException<T>(field.GetFieldName(),
+                    value, UnexpectedObjectValueExceptionReasons.StringIsNullOrWhiteSpace);
         }
 
         public static void GuardAgainstMinDate<T, TProp>(this T obj, Expression<Func<T, TProp>> field)

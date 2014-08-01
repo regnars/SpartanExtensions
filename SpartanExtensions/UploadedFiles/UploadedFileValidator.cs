@@ -13,7 +13,11 @@ namespace SpartanExtensions.UploadedFiles
 
         public UploadedFileValidator(FileInfo fileInfo, UploadedFileValidationConfiguration validationConfiguration)
         {
-            FilePath = fileInfo.FullName;
+            FileInfo = fileInfo;
+            this.GuardAgainstNull(ufv => ufv.FileInfo);
+
+            FilePath = FileInfo.FullName;
+            this.GuardAgainstStringIsNullOrEmpty(ufv => ufv.FilePath);
 
             FileNameWithExtension = Path.GetFileName(FilePath);
             this.GuardAgainstStringIsNullOrEmpty(ufv => ufv.FilePath);
@@ -21,7 +25,7 @@ namespace SpartanExtensions.UploadedFiles
             FileNameWithoutExtension = Path.GetFileNameWithoutExtension(FilePath);
             this.GuardAgainstStringIsNullOrEmpty(ufv => ufv.FileNameWithoutExtension);
 
-            FileExtension = Path.GetExtension(FilePath);
+            FileExtension = Path.GetExtension(FilePath).Replace(".", string.Empty);
             this.GuardAgainstStringIsNullOrEmpty(ufv => ufv.FileExtension);
 
             ValidationConfiguration = validationConfiguration;

@@ -43,6 +43,11 @@
   <ItemGroup>
     <Compile Include="BooleanExtensions.cs" />
     <Compile Include="ConfigurationManagerExtensions.cs" />
+    <Compile Include="DataToCSV\DataToCsv.cs" />
+    <Compile Include="DataToCSV\Headers\CustomHeader.cs" />
+    <Compile Include="DataToCSV\Headers\CustomIndexHeader.cs" />
+    <Compile Include="DataToCSV\Headers\HeaderBase.cs" />
+    <Compile Include="DataToCSV\Headers\PropertyHeader.cs" />
     <Compile Include="DirectoryInfoExtensions.cs" />
     <Compile Include="EventHandlerExtensions.cs" />
     <Compile Include="Exceptions\UnexpectedObjectValueException.cs" />
