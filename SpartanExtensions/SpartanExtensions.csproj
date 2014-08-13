@@ -52,6 +52,7 @@
     <Compile Include="EventHandlerExtensions.cs" />
     <Compile Include="Exceptions\UnexpectedObjectValueException.cs" />
     <Compile Include="Exceptions\UnexpectedObjectValueExceptionReasons.cs" />
+    <Compile Include="StreamExtensions.cs" />
     <Compile Include="UploadedFiles\UploadedFileException.cs" />
     <Compile Include="ExpressionExtensions.cs" />
     <Compile Include="FileInfoExtensions.cs" />
