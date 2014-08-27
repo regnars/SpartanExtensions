@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.Win32;
 using System.IO;
 
@@ -14,6 +15,7 @@ namespace SpartanExtensions.UploadedFiles
         public string FileNameWithExtension { get; private set; }
         public string FilePath { get; private set; }
         public UploadedFileValidationConfiguration ValidationConfiguration { get; private set; }
+        private OpenXmlFormats OpenXmlFormats { get; set; }
 
         public UploadedFileValidator(FileInfo fileInfo, UploadedFileValidationConfiguration validationConfiguration)
         {
@@ -39,6 +41,8 @@ namespace SpartanExtensions.UploadedFiles
 
             ValidationConfiguration = validationConfiguration;
             this.GuardAgainstNull(ufv => ufv.ValidationConfiguration);
+
+            OpenXmlFormats = new OpenXmlFormats();
         }
 
         private string GetExtensionByMimeType(string mimeType)
@@ -73,8 +77,14 @@ namespace SpartanExtensions.UploadedFiles
 
             if (!String.IsNullOrEmpty(FileExtensionByMimeType)
                 && FileExtensionByFileName != FileExtensionByMimeType)
+            {
+                if (OpenXmlFormats.Any(oxf => oxf.Formats.Any(f => f.ContainsValue(FileExtensionByFileName)))
+                    && FileExtensionByMimeType == "zip")
+                    return;
+
                 throw new UploadedFileException(string.Format("File extension \"{0}\" specified in file name \"{1}\" does not comply with the actual file extension \"{2}\".",
                     FileExtensionByFileName, FileNameWithExtension, FileExtensionByMimeType));
+            }
         }
 
         public void ValidateFileSize()
