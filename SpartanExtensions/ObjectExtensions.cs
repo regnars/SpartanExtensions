@@ -12,5 +12,13 @@ namespace SpartanExtensions
                 BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
                 .GetValue(obj, null);
         }
+
+        public static string ToNullSafeString(object obj)
+        {
+            var result = string.Empty;
+            if (obj != null)
+                result = obj.ToString();
+            return result;
+        }
     }
 }
