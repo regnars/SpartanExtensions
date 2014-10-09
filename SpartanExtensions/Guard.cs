@@ -28,6 +28,9 @@ namespace SpartanExtensions
                     minDigitsBeforeComma, maxDigitsBeforeComma, minDigitsAfterComma, maxDigitsAfterComma, value, variableName, methodName));
         }
 
+        /// <summary>
+        /// Throws exception if enumerable is empty.
+        /// </summary>
         public static void AgainstEmptyEnumerable<T>(IEnumerable<T> value, string variableName, string methodName)
         {
             if (!value.Any())
@@ -35,6 +38,9 @@ namespace SpartanExtensions
                     variableName, methodName));
         }
 
+        /// <summary>
+        /// Throws exception object is null.
+        /// </summary>
         public static void AgainstNull(object value, string variableName, string methodName)
         {
             if (value == null)
@@ -42,6 +48,9 @@ namespace SpartanExtensions
                     variableName, methodName));
         }
 
+        /// <summary>
+        /// Throws exception if decimal value is zero.
+        /// </summary>
         public static void AgainstZero(decimal value, string variableName, string methodName)
         {
             if (value == 0)
@@ -49,6 +58,9 @@ namespace SpartanExtensions
                     variableName, methodName));
         }
 
+        /// <summary>
+        /// Throws exception if decimal value is negative or zero.
+        /// </summary>
         public static void AgainstNegativeOrZero(decimal value, string variableName, string methodName)
         {
             if (value <= 0)
@@ -56,6 +68,9 @@ namespace SpartanExtensions
                     variableName, methodName));
         }
 
+        /// <summary>
+        /// Throws exception if decimal value is negative.
+        /// </summary>
         public static void AgainstNegative(decimal value, string variableName, string methodName)
         {
             if (value < 0)
@@ -63,6 +78,9 @@ namespace SpartanExtensions
                     variableName, methodName));
         }
 
+        /// <summary>
+        /// Throws exception if string is null or empty.
+        /// </summary>
         public static void AgainstStringIsNullOrEmpty(string value, string variableName, string methodName)
         {
             if (String.IsNullOrEmpty(value))
@@ -70,6 +88,9 @@ namespace SpartanExtensions
                     variableName, methodName));
         }
 
+        /// <summary>
+        /// Throws exception if string contains a value.
+        /// </summary>
         public static void AgainstStringIsNOTNullOrEmpty(string value, string variableName, string methodName)
         {
             if (!String.IsNullOrEmpty(value))
@@ -77,6 +98,9 @@ namespace SpartanExtensions
                     variableName, methodName));
         }
 
+        /// <summary>
+        /// Throws exception if string is null or whitespace.
+        /// </summary>
         public static void AgainstStringIsNullOrWhiteSpace(string value, string variableName, string methodName)
         {
             if (String.IsNullOrWhiteSpace(value))
@@ -84,6 +108,9 @@ namespace SpartanExtensions
                     variableName, methodName));
         }
 
+        /// <summary>
+        /// Throws exception if guid is empty.
+        /// </summary>
         public static void AgainstEmptyGuid(Guid value, string variableName, string methodName)
         {
             if (value == Guid.Empty)
@@ -91,6 +118,9 @@ namespace SpartanExtensions
                     variableName, methodName));
         }
 
+        /// <summary>
+        /// Throws exception if property's value is null.
+        /// </summary>
         public static void GuardAgainstNull<T, TProp>(this T obj, Expression<Func<T, TProp>> field)
         {
             var value = obj.GetPropertyValue(field);
@@ -99,6 +129,9 @@ namespace SpartanExtensions
                     null, UnexpectedObjectValueExceptionReasons.NullReference);
         }
 
+        /// <summary>
+        /// Throws exception if property's value is zero.
+        /// </summary>
         public static void GuardAgainstZero<T, TProp>(this T obj, Expression<Func<T, TProp>> field)
         {
             var value = Convert.ToDecimal(obj.GetPropertyValue(field));
@@ -107,6 +140,9 @@ namespace SpartanExtensions
                     value, UnexpectedObjectValueExceptionReasons.ZeroValue);
         }
 
+        /// <summary>
+        /// Throws exception if property's value is negative.
+        /// </summary>
         public static void GuardAgainstNegative<T, TProp>(this T obj, Expression<Func<T, TProp>> field)
         {
             var value = Convert.ToDecimal(obj.GetPropertyValue(field));
@@ -115,6 +151,9 @@ namespace SpartanExtensions
                     value, UnexpectedObjectValueExceptionReasons.NegativeValue);
         }
 
+        /// <summary>
+        /// Throws exception if property's value is null or empty string.
+        /// </summary>
         public static void GuardAgainstStringIsNullOrEmpty<T, TProp>(this T obj, Expression<Func<T, TProp>> field)
         {
             var value = (string)obj.GetPropertyValue(field);
@@ -123,6 +162,9 @@ namespace SpartanExtensions
                     value, UnexpectedObjectValueExceptionReasons.StringIsNullOrEmpty);
         }
 
+        /// <summary>
+        /// Throws exception if property's value is not an empty string.
+        /// </summary>
         public static void GuardAgainstStringIsNOTNullOrEmpty<T, TProp>(this T obj, Expression<Func<T, TProp>> field)
         {
             var value = (string)obj.GetPropertyValue(field);
@@ -131,6 +173,9 @@ namespace SpartanExtensions
                     value, UnexpectedObjectValueExceptionReasons.StringIsNOTNullOrEmpty);
         }
 
+        /// <summary>
+        /// Throws exception if property's value is null or whitespace string.
+        /// </summary>
         public static void GuardAgainstStringIsNullOrWhiteSpace<T, TProp>(this T obj, Expression<Func<T, TProp>> field)
         {
             var value = (string)obj.GetPropertyValue(field);
@@ -139,6 +184,9 @@ namespace SpartanExtensions
                     value, UnexpectedObjectValueExceptionReasons.StringIsNullOrWhiteSpace);
         }
 
+        /// <summary>
+        /// Throws exception if property's value is less than date 01.01.1900.
+        /// </summary>
         public static void GuardAgainstMinDate<T, TProp>(this T obj, Expression<Func<T, TProp>> field)
         {
             var value = DateTime.Parse(obj.GetPropertyValue(field).ToString());
@@ -147,6 +195,9 @@ namespace SpartanExtensions
                     UnexpectedObjectValueExceptionReasons.DateValueMustBeGreaterThanMinDate);
         }
 
+        /// <summary>
+        /// Throws exception if property's value is negative or zero.
+        /// </summary>
         public static void GuardAgainstNegativeAndZero<T, TProp>(this T obj, Expression<Func<T, TProp>> field)
         {
             var value = Convert.ToDecimal(obj.GetPropertyValue(field));
@@ -155,6 +206,9 @@ namespace SpartanExtensions
                     value, UnexpectedObjectValueExceptionReasons.NegativeOrZeroValue);
         }
 
+        /// <summary>
+        /// Throws exception if property's value is an empty guid.
+        /// </summary>
         public static void GuardAgainstEmptyGuid<T, TProp>(this T obj, Expression<Func<T, TProp>> field)
         {
             var valueObj = obj.GetPropertyValue(field);
@@ -168,6 +222,9 @@ namespace SpartanExtensions
                     value, UnexpectedObjectValueExceptionReasons.EmptyGuid);
         }
 
+        /// <summary>
+        /// Throws exception if property's value is an empty enumerable.
+        /// </summary>
         public static void GuardAgainstEmptyEnumerable<T, TProp, TEnumerableItem>(this T obj, Expression<Func<T, TProp>> field)
         {
             var enumerable = (IEnumerable<TEnumerableItem>)obj.GetPropertyValue(field);

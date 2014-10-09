@@ -4,6 +4,9 @@ namespace SpartanExtensions
 {
     public static class FileInfoExtensions
     {
+        /// <summary>
+        /// Checks if file is locked.
+        /// </summary>
         public static bool IsLocked(this FileInfo file)
         {
             FileStream stream = null;

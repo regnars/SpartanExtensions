@@ -6,6 +6,9 @@ namespace SpartanExtensions
 {
     public static class ObjectExtensions
     {
+        /// <summary>
+        /// Gets property value using the reflection.
+        /// </summary>
         public static object GetPropertyValue<T, TProp>(this T obj, Expression<Func<T, TProp>> property)
         {
             return (typeof(T)).GetProperty(property.GetFieldName(),
@@ -13,7 +16,10 @@ namespace SpartanExtensions
                 .GetValue(obj, null);
         }
 
-        public static string ToNullSafeString(object obj)
+        /// <summary>
+        /// Returns a string representing the current object without the worry of checking the object against null.
+        /// </summary>
+        public static string ToNullSafeString(this object obj)
         {
             var result = string.Empty;
             if (obj != null)

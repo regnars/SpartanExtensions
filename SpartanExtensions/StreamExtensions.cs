@@ -4,6 +4,9 @@ namespace SpartanExtensions
 {
     public static class StreamExtensions
     {
+        /// <summary>
+        /// Converts stream to byte array.
+        /// </summary>
         public static byte[] ToByteArray(this Stream stream)
         {
             var buffer = new byte[16 * 1024];

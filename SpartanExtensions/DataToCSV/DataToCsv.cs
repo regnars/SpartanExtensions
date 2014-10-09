@@ -14,8 +14,17 @@ namespace SpartanExtensions
     {
         private const string _offsetValue = ";";
 
+        /// <summary>
+        /// Memory stream containing csv file.
+        /// </summary>
         public MemoryStream Csv { get; private set; }
 
+        /// <summary>
+        /// Converts IEnumerable of type T to csv file. Content is in "Csv" property after the initialization of this object. 
+        /// </summary>
+        /// <param name="data">Data to write to csv</param>
+        /// <param name="customHeaderRows">Collection of header rows for csv file that has nothing to do with the data.</param>
+        /// <param name="customHeaders">Collection of headers for csv file.</param>
         public DataToCsv(IEnumerable<T> data, IEnumerable<string> customHeaderRows = null,
             params HeaderBase<T>[] customHeaders)
         {

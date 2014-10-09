@@ -6,6 +6,9 @@ namespace SpartanExtensions
 {
     public static class TypeExtensions
     {
+        /// <summary>
+        /// Gets the type's assembly output file path.
+        /// </summary>
         public static string GetAssemblyOutputPath(this Type type)
         {
             var assemblyLocation = Assembly.GetAssembly(type).Location;

@@ -6,6 +6,9 @@ namespace SpartanExtensions
 {
     public static class ByteArrayExtensions
     {
+        /// <summary>
+        /// Writes byte array content to FileStream object.
+        /// </summary>
         public static FileInfo ToFile(this byte[] content, string filePath)
         {
             var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write);
@@ -14,6 +17,9 @@ namespace SpartanExtensions
             return new FileInfo(filePath);
         }
 
+        /// <summary>
+        /// Gets mime type of the byte array (file content).
+        /// </summary>
         public static string GetMimeType(this byte[] content)
         {
             const string defaultMimeType = "application/octet-stream";
