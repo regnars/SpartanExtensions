@@ -2,9 +2,12 @@
 
 namespace SpartanExtensions.UploadedFiles
 {
+    /// <summary>
+    /// Uploaded file exception class
+    /// </summary>
     public class UploadedFileException : Exception
     {
-        public UploadedFileException(string message)
+        internal UploadedFileException(string message)
             : base(message)
         {
 

@@ -6,13 +6,13 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Web;
+using System.Threading;
 
-namespace SpartanExtensions
+namespace SpartanExtensions.DataToCSV
 {
     public class DataToCsv<T>
     {
-        private const string _offsetValue = ";";
+        private const string OffsetValue = ";";
 
         /// <summary>
         /// Memory stream containing csv file.
@@ -28,18 +28,20 @@ namespace SpartanExtensions
         public DataToCsv(IEnumerable<T> data, IEnumerable<string> customHeaderRows = null,
             params HeaderBase<T>[] customHeaders)
         {
-            this.Csv = GetCsv(data, customHeaders, customHeaderRows);
+            Csv = GetCsv(data, customHeaders, customHeaderRows);
         }
 
         private MemoryStream GetCsv(IEnumerable<T> data,
             IEnumerable<HeaderBase<T>> headers, IEnumerable<string> customHeaderRows = null)
         {
-            if (data == null || data.Count() == 0)
+                
+            // ReSharper disable PossibleMultipleEnumeration
+            if (data == null || !data.Any())
             {
                 return new MemoryStream();
             }
 
-            if (headers == null || headers.Count() == 0)
+            if (headers == null || !headers.Any())
             {
                 headers = CreateHeadersFromProperties<T>(typeof(T));
             }
@@ -52,6 +54,7 @@ namespace SpartanExtensions
             streamWriter.Flush();
             stream.Position = 0;
             return stream;
+            // ReSharper restore PossibleMultipleEnumeration
         }
 
         private void WriteCustomHeaderRows(StreamWriter streamWriter, IEnumerable<string> customHeaderRows)
@@ -63,29 +66,23 @@ namespace SpartanExtensions
             }
         }
 
-        private IEnumerable<HeaderBase<D>> CreateHeadersFromProperties<D>(Type type)
+        private IEnumerable<HeaderBase<TD>> CreateHeadersFromProperties<TD>(Type type)
         {
-            PropertyInfo[] properties = type.GetProperties();
+            var properties = type.GetProperties();
             return properties
                 .Where(x =>
                     x.Name != "Id"
                     && IsBrowsable(x))
-                .Select(x => new PropertyHeader<D>(x))
-                .Cast<HeaderBase<D>>();
-
+                .Select(x => new PropertyHeader<TD>(x));
         }
 
         private bool IsBrowsable(PropertyInfo property)
         {
             object attribute = property.GetCustomAttributes(inherit: false).FirstOrDefault(x => x is BrowsableAttribute);
             if (attribute == null)
-            {
                 return true;
-            }
-            else
-            {
-                return (attribute as BrowsableAttribute).Browsable;
-            }
+            var browsableAttribute = attribute as BrowsableAttribute;
+            return browsableAttribute != null && browsableAttribute.Browsable;
         }
 
         private void WriteHeader(StreamWriter streamWriter,
@@ -94,16 +91,17 @@ namespace SpartanExtensions
             foreach (HeaderBase<T> header in customHeaders)
             {
                 streamWriter.Write(header.Header);
-                streamWriter.Write(_offsetValue);
+                streamWriter.Write(OffsetValue);
             }
             streamWriter.Write(Environment.NewLine);
         }
 
         private void WriteContent(IEnumerable<T> data, StreamWriter streamWriter, IEnumerable<HeaderBase<T>> headers)
         {
-            foreach (T item in data)
+            foreach (var item in data)
             {
                 var offset = 0;
+                // ReSharper disable once PossibleMultipleEnumeration
                 foreach (var header in headers)
                 {
                     WriteValue(item, header, offset, streamWriter);
@@ -116,26 +114,28 @@ namespace SpartanExtensions
         private void WriteValue<TItem>(TItem item, HeaderBase<TItem> header,
             int offset, StreamWriter streamWriter)
         {
-            object value = header.GetValue(item);
+            var value = header.GetValue(item);
             if (value == null)
             {
-                streamWriter.Write(_offsetValue);
+                streamWriter.Write(OffsetValue);
             }
             else if (value is bool)
             {
-                streamWriter.Write((bool)value ? "Jā" : "Nē");
-                streamWriter.Write(_offsetValue);
+                streamWriter.Write((bool)value ? "Yes" : "No");
+                streamWriter.Write(OffsetValue);
             }
             else if (value is DateTime)
             {
-                streamWriter.Write(((DateTime)value).ToString("dd.MM.yyyy"));
-                streamWriter.Write(_offsetValue);
+                var dateFormat = Thread.CurrentThread.CurrentCulture.DateTimeFormat;
+                streamWriter.Write(((DateTime) value).ToString("d", dateFormat));
+                streamWriter.Write(OffsetValue);
             }
             else if (value is ICollection)
             {
-                streamWriter.Write(_offsetValue);
+                // ReSharper disable PossibleMultipleEnumeration
+                streamWriter.Write(OffsetValue);
                 IEnumerable<HeaderBase<object>> childHeaders = null;
-                foreach (object itemValue in value as ICollection)
+                foreach (var itemValue in value as ICollection)
                 {
                     if (itemValue == null)
                     {
@@ -147,22 +147,23 @@ namespace SpartanExtensions
                     {
                         childHeaders = CreateHeadersFromProperties<object>(itemValue.GetType());
                     }
-                    foreach (HeaderBase<object> itemHeader in childHeaders)
+                    foreach (var itemHeader in childHeaders)
                     {
                         WriteValue(itemValue, itemHeader, offset, streamWriter);
                     }
                 }
+                // ReSharper restore PossibleMultipleEnumeration
             }
             else if (value is string)
             {
-                string strVal = value as string;
-                bool wrappedInQuotMarks = strVal.StartsWith("\"") && strVal.EndsWith("\"");
+                var strVal = value as string;
+                var wrappedInQuotMarks = strVal.StartsWith("\"") && strVal.EndsWith("\"");
                 if (wrappedInQuotMarks)
                     streamWriter.Write("\"\"");
                 streamWriter.Write(value);
                 if (wrappedInQuotMarks)
                     streamWriter.Write("\"\"");
-                streamWriter.Write(_offsetValue);
+                streamWriter.Write(OffsetValue);
             }
             else if (value is Enum)
             {
@@ -171,15 +172,15 @@ namespace SpartanExtensions
             else
             {
                 streamWriter.Write(value.ToString());
-                streamWriter.Write(_offsetValue);
+                streamWriter.Write(OffsetValue);
             }
         }
 
         private void Offset(int offset, StreamWriter streamWriter)
         {
-            for (int index = 1; index <= offset; index++)
+            for (var index = 1; index <= offset; index++)
             {
-                streamWriter.Write(_offsetValue);
+                streamWriter.Write(OffsetValue);
             }
         }
     }

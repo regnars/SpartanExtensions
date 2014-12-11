@@ -6,8 +6,6 @@ namespace SpartanExtensions.UploadedFiles
     {
         public OpenXmlFormats()
         {
-
-
             Add(new OpenXmlFormat(application: "Word",
                 formats: new List<Dictionary<string, string>>
                 {

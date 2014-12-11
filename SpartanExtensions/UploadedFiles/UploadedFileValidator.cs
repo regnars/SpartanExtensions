@@ -5,18 +5,59 @@ using System.IO;
 
 namespace SpartanExtensions.UploadedFiles
 {
+    /// <summary>
+    /// Uploaded file validator class.
+    /// </summary>
     public class UploadedFileValidator
     {
+        /// <summary>
+        /// File mime type.
+        /// </summary>
         public string FileMimeType { get; private set; }
+        
+        /// <summary>
+        /// File extension determined by mime type.
+        /// </summary>
         public string FileExtensionByMimeType { get; private set; }
+        
+        /// <summary>
+        /// FileInfo type object representation of the file to validate.
+        /// </summary>
         private FileInfo FileInfo { get; set; }
+
+        /// <summary>
+        /// File extension determined by file name.
+        /// </summary>
         public string FileExtensionByFileName { get; private set; }
+        
+        /// <summary>
+        /// File name without an extension.
+        /// </summary>
         public string FileNameWithoutExtension { get; private set; }
+        
+        /// <summary>
+        /// File name with an extension.
+        /// </summary>
         public string FileNameWithExtension { get; private set; }
+        
+        /// <summary>
+        /// File path.
+        /// </summary>
         public string FilePath { get; private set; }
+        
+        /// <summary>
+        /// Validation configuration object.
+        /// </summary>
         public UploadedFileValidationConfiguration ValidationConfiguration { get; private set; }
+
         private OpenXmlFormats OpenXmlFormats { get; set; }
 
+
+        /// <summary>
+        /// Constructor for uploaded file validator object.
+        /// </summary>
+        /// <param name="fileInfo">FileInfo type object representation of the file to validate.</param>
+        /// <param name="validationConfiguration">Uploaded file validation configuration</param>
         public UploadedFileValidator(FileInfo fileInfo, UploadedFileValidationConfiguration validationConfiguration)
         {
             FileInfo = fileInfo;
@@ -45,7 +86,7 @@ namespace SpartanExtensions.UploadedFiles
             OpenXmlFormats = new OpenXmlFormats();
         }
 
-        private string GetExtensionByMimeType(string mimeType)
+        private static string GetExtensionByMimeType(string mimeType)
         {
             var key = Registry.ClassesRoot.OpenSubKey(@"MIME\Database\Content Type\" + mimeType, false);
             var value = key != null ? key.GetValue("Extension", null) : null;
@@ -57,12 +98,19 @@ namespace SpartanExtensions.UploadedFiles
             return File.ReadAllBytes(FilePath).GetMimeType();
         }
 
+        /// <summary>
+        /// Validates file's extension - performs validation against allowed extensions and checks if the specified file extension is the actual extension of the file.
+        /// For example, if the .exe file is simply renamed to .txt extension and uploaded to the server, then the validator will throw an exception that the file is invalid.
+        /// </summary>
         public void ValidateExtension()
         {
             ValidateAgainstAllowedExtensions();
             ValidateSpecifiedExtensionInFileNameAgainstActualExtension();
         }
 
+        /// <summary>
+        /// Validates file's extension - performs only validation against allowed extensions.
+        /// </summary>
         public void ValidateAgainstAllowedExtensions()
         {
             if (!ValidationConfiguration.AllowedFileTypeExtensions.Contains(FileExtensionByFileName))
@@ -70,6 +118,10 @@ namespace SpartanExtensions.UploadedFiles
                     FileExtensionByFileName, string.Join(",", ValidationConfiguration.AllowedFileTypeExtensions)));
         }
 
+        /// <summary>
+        /// Validates file's extension - checks if the specified file extension is the actual extension of the file.
+        /// For example, if the .exe file is simply renamed to .txt extension and uploaded to the server, then the validator will throw an exception that the file is invalid.
+        /// </summary>
         public void ValidateSpecifiedExtensionInFileNameAgainstActualExtension()
         {
             if (String.IsNullOrEmpty(FileExtensionByMimeType))
@@ -87,6 +139,9 @@ namespace SpartanExtensions.UploadedFiles
             }
         }
 
+        /// <summary>
+        /// Validates uploaded file size.
+        /// </summary>
         public void ValidateFileSize()
         {
             if (ValidationConfiguration.MaximumAllowedFileSizeInBytes < FileInfo.Length)
