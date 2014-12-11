@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("SpartanExtensions")]
-[assembly: AssemblyDescription("Productivity extensions for building applications faster.")]
+[assembly: AssemblyDescription("Productivity extensions for building of the better applications faster.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Autentica")]
 [assembly: AssemblyProduct("SpartanExtensions")]
