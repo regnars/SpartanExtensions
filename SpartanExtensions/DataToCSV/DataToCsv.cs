@@ -12,7 +12,8 @@ namespace SpartanExtensions.DataToCSV
 {
     public class DataToCsv<T>
     {
-        private const string OffsetValue = ";";
+        private string OffsetValue { get; set; }
+        private bool UseOffsetBeforeNewLine { get; set; }
 
         /// <summary>
         /// Memory stream containing csv file.
@@ -25,16 +26,20 @@ namespace SpartanExtensions.DataToCSV
         /// <param name="data">Data to write to csv</param>
         /// <param name="customHeaderRows">Collection of header rows for csv file that has nothing to do with the data.</param>
         /// <param name="customHeaders">Collection of headers for csv file.</param>
-        public DataToCsv(IEnumerable<T> data, IEnumerable<string> customHeaderRows = null,
-            params HeaderBase<T>[] customHeaders)
+        /// <param name="offsetValue">Csv offset character value, default is ";".</param>
+        /// <param name="useOffsetBeforeNewLine">Should use offset value before adding newline.</param>
+        public DataToCsv(IEnumerable<T> data, IEnumerable<HeaderBase<T>> customHeaders,
+            IEnumerable<string> customHeaderRows = null, string offsetValue = ";",
+            bool useOffsetBeforeNewLine = true)
         {
+            OffsetValue = offsetValue;
+            UseOffsetBeforeNewLine = useOffsetBeforeNewLine;
             Csv = GetCsv(data, customHeaders, customHeaderRows);
         }
 
         private MemoryStream GetCsv(IEnumerable<T> data,
             IEnumerable<HeaderBase<T>> headers, IEnumerable<string> customHeaderRows = null)
         {
-                
             // ReSharper disable PossibleMultipleEnumeration
             if (data == null || !data.Any())
             {
@@ -48,16 +53,29 @@ namespace SpartanExtensions.DataToCSV
 
             var stream = new MemoryStream();
             var streamWriter = new StreamWriter(stream, Encoding.UTF8);
-            WriteCustomHeaderRows(streamWriter, customHeaderRows);
-            WriteHeader(streamWriter, headers);
-            WriteContent(data, streamWriter, headers);
+
+            if (customHeaderRows != null && customHeaderRows.Any())
+            {
+                WriteCustomHeaderRows(streamWriter, customHeaderRows);
+            }
+
+            if (headers != null && headers.Any())
+            {
+                WriteHeader(streamWriter, headers);
+
+                if (data.Any())
+                {
+                    WriteContent(data, streamWriter, headers);
+                }
+            }
+
             streamWriter.Flush();
             stream.Position = 0;
             return stream;
             // ReSharper restore PossibleMultipleEnumeration
         }
 
-        private void WriteCustomHeaderRows(StreamWriter streamWriter, IEnumerable<string> customHeaderRows)
+        private static void WriteCustomHeaderRows(StreamWriter streamWriter, IEnumerable<string> customHeaderRows)
         {
             foreach (var headerRow in customHeaderRows)
             {
@@ -78,7 +96,7 @@ namespace SpartanExtensions.DataToCSV
 
         private bool IsBrowsable(PropertyInfo property)
         {
-            object attribute = property.GetCustomAttributes(inherit: false).FirstOrDefault(x => x is BrowsableAttribute);
+            var attribute = property.GetCustomAttributes(inherit: false).FirstOrDefault(x => x is BrowsableAttribute);
             if (attribute == null)
                 return true;
             var browsableAttribute = attribute as BrowsableAttribute;
@@ -88,12 +106,18 @@ namespace SpartanExtensions.DataToCSV
         private void WriteHeader(StreamWriter streamWriter,
             IEnumerable<HeaderBase<T>> customHeaders)
         {
-            foreach (HeaderBase<T> header in customHeaders)
+            // ReSharper disable PossibleMultipleEnumeration
+            foreach (var header in customHeaders)
             {
                 streamWriter.Write(header.Header);
-                streamWriter.Write(OffsetValue);
+
+                if (UseOffsetBeforeNewLine
+                    || !(!UseOffsetBeforeNewLine
+                         && customHeaders.Last().Equals(header)))
+                    streamWriter.Write(OffsetValue);
             }
             streamWriter.Write(Environment.NewLine);
+            // ReSharper restore PossibleMultipleEnumeration
         }
 
         private void WriteContent(IEnumerable<T> data, StreamWriter streamWriter, IEnumerable<HeaderBase<T>> headers)
@@ -101,34 +125,39 @@ namespace SpartanExtensions.DataToCSV
             foreach (var item in data)
             {
                 var offset = 0;
-                // ReSharper disable once PossibleMultipleEnumeration
+                // ReSharper disable PossibleMultipleEnumeration
                 foreach (var header in headers)
                 {
-                    WriteValue(item, header, offset, streamWriter);
+                    WriteValue(item, header, offset, streamWriter,
+                        shouldWriteOffsetValue: UseOffsetBeforeNewLine || !(!UseOffsetBeforeNewLine && headers.Last().Equals(header)));
                     offset++;
                 }
+                // ReSharper restire PossibleMultipleEnumeration
                 streamWriter.Write(Environment.NewLine);
             }
         }
 
         private void WriteValue<TItem>(TItem item, HeaderBase<TItem> header,
-            int offset, StreamWriter streamWriter)
+            int offset, StreamWriter streamWriter, bool shouldWriteOffsetValue)
         {
             var value = header.GetValue(item);
             if (value == null)
             {
-                streamWriter.Write(OffsetValue);
+                if (shouldWriteOffsetValue)
+                    streamWriter.Write(OffsetValue);
             }
             else if (value is bool)
             {
                 streamWriter.Write((bool)value ? "Yes" : "No");
-                streamWriter.Write(OffsetValue);
+                if (shouldWriteOffsetValue)
+                    streamWriter.Write(OffsetValue);
             }
             else if (value is DateTime)
             {
                 var dateFormat = Thread.CurrentThread.CurrentCulture.DateTimeFormat;
-                streamWriter.Write(((DateTime) value).ToString("d", dateFormat));
-                streamWriter.Write(OffsetValue);
+                streamWriter.Write(((DateTime)value).ToString("d", dateFormat));
+                if (shouldWriteOffsetValue)
+                    streamWriter.Write(OffsetValue);
             }
             else if (value is ICollection)
             {
@@ -149,7 +178,8 @@ namespace SpartanExtensions.DataToCSV
                     }
                     foreach (var itemHeader in childHeaders)
                     {
-                        WriteValue(itemValue, itemHeader, offset, streamWriter);
+                        WriteValue(itemValue, itemHeader, offset, streamWriter,
+                            shouldWriteOffsetValue: UseOffsetBeforeNewLine || !(!UseOffsetBeforeNewLine && childHeaders.Last().Equals(itemHeader)));
                     }
                 }
                 // ReSharper restore PossibleMultipleEnumeration
@@ -163,7 +193,8 @@ namespace SpartanExtensions.DataToCSV
                 streamWriter.Write(value);
                 if (wrappedInQuotMarks)
                     streamWriter.Write("\"\"");
-                streamWriter.Write(OffsetValue);
+                if (shouldWriteOffsetValue)
+                    streamWriter.Write(OffsetValue);
             }
             else if (value is Enum)
             {
@@ -172,7 +203,8 @@ namespace SpartanExtensions.DataToCSV
             else
             {
                 streamWriter.Write(value.ToString());
-                streamWriter.Write(OffsetValue);
+                if (shouldWriteOffsetValue)
+                    streamWriter.Write(OffsetValue);
             }
         }
 
