@@ -29,10 +29,10 @@ namespace SpartanExtensions
             return result;
         }
 
-        public static List<string> GetPublicInstanceProperties(this object obj)
+        public static List<string> GetPublicStaticFields(this object obj)
         {
-            var properties = obj.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
-            return properties.Select(x => x.GetValue(obj, null).ToString()).ToList();
+            var fields = obj.GetType().GetFields(BindingFlags.Public | BindingFlags.Static);
+            return fields.Select(f => f.GetValue(obj).ToString()).ToList();
         }
     }
 }
