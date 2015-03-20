@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -25,6 +27,12 @@ namespace SpartanExtensions
             if (obj != null)
                 result = obj.ToString();
             return result;
+        }
+
+        public static List<string> GetPublicInstanceProperties(this object obj)
+        {
+            var properties = obj.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            return properties.Select(x => x.GetValue(obj, null).ToString()).ToList();
         }
     }
 }
