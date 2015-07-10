@@ -19,7 +19,7 @@ namespace SpartanExtensions
         }
 
         /// <summary>
-        /// Gets an attribute corresponding to the type
+        /// Gets an attribute corresponding to the type.
         /// </summary>
         /// <param name="type"></param>
         public static TAttribute GetAttribute<TAttribute>(this Type type)
