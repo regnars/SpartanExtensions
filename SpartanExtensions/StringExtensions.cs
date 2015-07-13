@@ -13,10 +13,10 @@ namespace SpartanExtensions
         /// <param name="attributeValue">Attribute value by which to search.</param>
         /// <param name="compareAgainstAttributeProperty">Attribute property name by which to search.</param>
         /// <returns></returns>
-        public static TEnum GetEnumValueByAttributeValue<TEnum, TAttribute>(this string attributeValue, string compareAgainstAttributeProperty)
+        public static TEnum? GetEnumValueByAttributeValue<TEnum, TAttribute>(this string attributeValue, string compareAgainstAttributeProperty)
             where TEnum : struct, IConvertible
         {
-            var enumValue = default(TEnum);
+            TEnum? enumValue = null;
 
             var enumValues = Enum.GetValues(typeof(TEnum)).Cast<TEnum>().ToList();
 
