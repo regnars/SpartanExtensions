@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 namespace SpartanExtensions
 {
     public static class StringExtensions
@@ -10,10 +11,10 @@ namespace SpartanExtensions
         /// </summary>
         /// <typeparam name="TEnum">Type of the enum.</typeparam>
         /// <typeparam name="TAttribute">Type of the attribute.</typeparam>
-        /// <param name="attributeValue">Attribute value by which to search.</param>
-        /// <param name="compareAgainstAttributeProperty">Attribute property name by which to search.</param>
+        /// <typeparam name="TProp">Type of the attribute's property by which to compare.</typeparam>
+        /// <param name="attributeValue">Attribute value by which to search the enum attribute values.</param>
         /// <returns></returns>
-        public static TEnum? GetEnumValueByAttributeValue<TEnum, TAttribute>(this string attributeValue, string compareAgainstAttributeProperty)
+        public static TEnum? ToEnumByAttributeValue<TEnum, TAttribute, TProp>(this string attributeValue, Expression<Func<TAttribute, TProp>> field)
             where TEnum : struct, IConvertible
         {
             TEnum? enumValue = null;
@@ -31,7 +32,7 @@ namespace SpartanExtensions
                 if (attribute == null)
                     return;
 
-                var compareAgainstValue = (string)attribute.GetPropertyValue(compareAgainstAttributeProperty);
+                var compareAgainstValue = (string)attribute.GetPropertyValue(field.GetFieldName());
 
                 if (compareAgainstValue == attributeValue)
                 {

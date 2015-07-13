@@ -12,7 +12,7 @@ namespace SpartanExtensions.Tests.StringExtensions
         [TestMethod]
         public void ShouldGetExistingEnumValue()
         {
-            var type = "type-two".GetEnumValueByAttributeValue<Types, XmlEnumAttribute>(compareAgainstAttributeProperty: "Name");
+            var type = "type-two".ToEnumByAttributeValue<Types, XmlEnumAttribute, string>(attribute => attribute.Name);
             Assert.IsTrue(type == Types.TypeTwo);
         }
 
@@ -21,7 +21,7 @@ namespace SpartanExtensions.Tests.StringExtensions
         {
             try
             {
-                var type = "xxx".GetEnumValueByAttributeValue<Types, XmlEnumAttribute>(compareAgainstAttributeProperty: "Name");
+                var type = "xxx".ToEnumByAttributeValue<Types, XmlEnumAttribute, string>(attribute => attribute.Name);
             }
             catch (Exception)
             {
