@@ -19,6 +19,16 @@ namespace SpartanExtensions
         }
 
         /// <summary>
+        /// Gets property value using the reflection.
+        /// </summary>
+        public static object GetPropertyValue<T>(this T obj, string propertyName)
+        {
+            return (typeof(T)).GetProperty(propertyName,
+                BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
+                .GetValue(obj, null);
+        }
+
+        /// <summary>
         /// Returns a string representing the current object without the worry of checking the object against null.
         /// </summary>
         public static string ToNullSafeString(this object obj)

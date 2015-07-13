@@ -1,0 +1,7 @@
+C:\Users\regnars.breikss\Documents\Sources\SpartanExtensions\SpartanExtensions.Tests\obj\Debug\SpartanExtensions.Tests.csprojResolveAssemblyReference.cache
+C:\Users\regnars.breikss\Documents\Sources\SpartanExtensions\SpartanExtensions.Tests\bin\Debug\SpartanExtensions.Tests.dll
+C:\Users\regnars.breikss\Documents\Sources\SpartanExtensions\SpartanExtensions.Tests\bin\Debug\SpartanExtensions.Tests.pdb
+C:\Users\regnars.breikss\Documents\Sources\SpartanExtensions\SpartanExtensions.Tests\obj\Debug\SpartanExtensions.Tests.dll
+C:\Users\regnars.breikss\Documents\Sources\SpartanExtensions\SpartanExtensions.Tests\obj\Debug\SpartanExtensions.Tests.pdb
+C:\Users\regnars.breikss\Documents\Sources\SpartanExtensions\SpartanExtensions.Tests\bin\Debug\SpartanExtensions.dll
+C:\Users\regnars.breikss\Documents\Sources\SpartanExtensions\SpartanExtensions.Tests\bin\Debug\SpartanExtensions.pdb
