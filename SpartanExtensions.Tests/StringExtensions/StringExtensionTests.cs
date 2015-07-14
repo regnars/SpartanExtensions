@@ -10,23 +10,17 @@ namespace SpartanExtensions.Tests.StringExtensions
     public class StringExtensionTests
     {
         [TestMethod]
-        public void ShouldGetExistingEnumValue()
+        public void ToEnumBySpecifiedAttributeValueShouldGetExistingEnumValue()
         {
-            var type = "type-two".ToEnumByAttributeValue<Types, XmlEnumAttribute, string>(attribute => attribute.Name);
+            var type = "type-two".ToEnumBySpecifiedAttributeValue<Types, XmlEnumAttribute, string>(attribute => attribute.Name);
             Assert.IsTrue(type == Types.TypeTwo);
         }
 
         [TestMethod]
-        public void ShouldNotGetUnexistingEnumValue()
+        public void ToEnumBySpecifiedAttributeValueShouldNotGetUnexistingEnumValue()
         {
-            try
-            {
-                var type = "xxx".ToEnumByAttributeValue<Types, XmlEnumAttribute, string>(attribute => attribute.Name);
-            }
-            catch (Exception)
-            {
-                Assert.IsTrue(true);
-            }
+            var type = "xxx".ToEnumBySpecifiedAttributeValue<Types, XmlEnumAttribute, string>(attribute => attribute.Name);
+            Assert.IsTrue(type == null);
         }
     }
 }

@@ -50,6 +50,7 @@
     <Compile Include="DataToCSV\Headers\HeaderBase.cs" />
     <Compile Include="DataToCSV\Headers\PropertyHeader.cs" />
     <Compile Include="DirectoryInfoExtensions.cs" />
+    <Compile Include="EnumExtensions.cs" />
     <Compile Include="EventHandlerExtensions.cs" />
     <Compile Include="Exceptions\UnexpectedObjectValueException.cs" />
     <Compile Include="Exceptions\UnexpectedObjectValueExceptionReasons.cs" />

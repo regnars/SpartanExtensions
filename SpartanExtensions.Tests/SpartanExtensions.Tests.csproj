@@ -54,6 +54,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="EnumExtensions\EnumExtensionTests.cs" />
     <Compile Include="StringExtensions\Mock\Types.cs" />
     <Compile Include="StringExtensions\StringExtensionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

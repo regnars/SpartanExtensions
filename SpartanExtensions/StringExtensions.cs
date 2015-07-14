@@ -13,9 +13,11 @@ namespace SpartanExtensions
         /// <typeparam name="TAttribute">Type of the attribute.</typeparam>
         /// <typeparam name="TProp">Type of the attribute's property by which to compare.</typeparam>
         /// <param name="attributeValue">Attribute value by which to search the enum attribute values.</param>
+        /// <param name="field">Attribute's property by which to compare.</param>
         /// <returns></returns>
-        public static TEnum? ToEnumByAttributeValue<TEnum, TAttribute, TProp>(this string attributeValue, Expression<Func<TAttribute, TProp>> field)
+        public static TEnum? ToEnumBySpecifiedAttributeValue<TEnum, TAttribute, TProp>(this string attributeValue, Expression<Func<TAttribute, TProp>> field)
             where TEnum : struct, IConvertible
+            where TAttribute : Attribute
         {
             TEnum? enumValue = null;
 

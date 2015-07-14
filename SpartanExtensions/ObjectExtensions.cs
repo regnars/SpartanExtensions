@@ -9,13 +9,43 @@ namespace SpartanExtensions
     public static class ObjectExtensions
     {
         /// <summary>
+        /// Gets member value using the reflection
+        /// </summary>
+        public static object GetMemberValue<T, TMember>(this T obj, Expression<Func<T, TMember>> memberExp)
+        {
+            return obj.GetMemberValue<T, TMember>(memberExp.GetFieldName());
+        }
+
+        /// <summary>
+        /// Gets member value using the reflection
+        /// </summary>
+        public static object GetMemberValue<T, TMember>(this T obj, string memberName)
+        {
+            var member = typeof(T).GetMember(memberName)
+                .FirstOrDefault();
+
+            if (member == null)
+                return null;
+
+            return member.GetMemberValue(obj);
+        }
+
+        private static object GetMemberValue<T>(this MemberInfo memberInfo, T obj)
+        {
+            object value;
+            if (memberInfo is FieldInfo)
+                value = ((FieldInfo)memberInfo).GetValue(obj);
+            else
+                value = ((PropertyInfo)memberInfo).GetValue(obj, null);
+            return value;
+        }
+
+        /// <summary>
         /// Gets property value using the reflection.
         /// </summary>
         public static object GetPropertyValue<T, TProp>(this T obj, Expression<Func<T, TProp>> property)
         {
-            return (typeof(T)).GetProperty(property.GetFieldName(),
-                BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
-                .GetValue(obj, null);
+            return obj.GetPropertyValue<T>(property.GetFieldName());
         }
 
         /// <summary>
