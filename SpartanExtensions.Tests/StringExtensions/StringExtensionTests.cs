@@ -10,6 +10,13 @@ namespace SpartanExtensions.Tests.StringExtensions
     public class StringExtensionTests
     {
         [TestMethod]
+        public void ToEnumBySpecifiedAttributeValueShouldGetExistingCaseInsensitiveEnumValue()
+        {
+            var type = "tYpe-TwO".ToEnumBySpecifiedAttributeValue<Types, XmlEnumAttribute, string>(attribute => attribute.Name);
+            Assert.IsTrue(type == Types.TypeTwo);
+        }
+
+        [TestMethod]
         public void ToEnumBySpecifiedAttributeValueShouldGetExistingEnumValue()
         {
             var type = "type-two".ToEnumBySpecifiedAttributeValue<Types, XmlEnumAttribute, string>(attribute => attribute.Name);

@@ -36,7 +36,8 @@ namespace SpartanExtensions
 
                 var compareAgainstValue = (string)attribute.GetPropertyValue(field.GetFieldName());
 
-                if (compareAgainstValue == attributeValue)
+                if (!string.IsNullOrEmpty(compareAgainstValue)
+                    && compareAgainstValue.ToLower() == attributeValue.ToLower())
                 {
                     TEnum currentEnumVal;
                     Enum.TryParse(ev.ToString(), out currentEnumVal);
