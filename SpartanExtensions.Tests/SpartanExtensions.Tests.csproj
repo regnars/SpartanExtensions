@@ -39,6 +39,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.XML" />
   </ItemGroup>
   <Choose>
@@ -54,6 +55,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Configuration\Authentication\AuthenticationSectionTests.cs" />
     <Compile Include="EnumExtensions\EnumExtensionTests.cs" />
     <Compile Include="StringExtensions\Mock\Types.cs" />
     <Compile Include="StringExtensions\StringExtensionTests.cs" />
@@ -64,6 +66,9 @@
       <Project>{55b87e6d-c437-4743-bb32-88d6fdd71141}</Project>
       <Name>SpartanExtensions</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

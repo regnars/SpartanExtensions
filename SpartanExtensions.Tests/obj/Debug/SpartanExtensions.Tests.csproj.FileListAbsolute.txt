@@ -12,3 +12,5 @@ C:\Sources\SpartanExtensions\SpartanExtensions.Tests\bin\Debug\SpartanExtensions
 C:\Sources\SpartanExtensions\SpartanExtensions.Tests\obj\Debug\SpartanExtensions.Tests.csprojResolveAssemblyReference.cache
 C:\Sources\SpartanExtensions\SpartanExtensions.Tests\obj\Debug\SpartanExtensions.Tests.dll
 C:\Sources\SpartanExtensions\SpartanExtensions.Tests\obj\Debug\SpartanExtensions.Tests.pdb
+C:\Sources\SpartanExtensions\SpartanExtensions.Tests\bin\Debug\authentication_example.config
+C:\Sources\SpartanExtensions\SpartanExtensions.Tests\bin\Debug\SpartanExtensions.Tests.dll.config
