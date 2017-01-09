@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Linq;
-using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Security;
+
 namespace SpartanExtensions
 {
     public static class StringExtensions
@@ -47,6 +48,20 @@ namespace SpartanExtensions
             });
 
             return enumValue;
+        }
+
+        /// <summary>
+        /// Transforms string into SecureString.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static SecureString ToSecureString(this string value)
+        {
+            if (string.IsNullOrEmpty(value)) return null;
+
+            var secureString = new SecureString();
+            value.ToList().ForEach(character => secureString.AppendChar(character));
+            return secureString;
         }
     }
 }

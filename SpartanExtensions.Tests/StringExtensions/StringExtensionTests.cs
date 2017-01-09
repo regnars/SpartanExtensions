@@ -1,8 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SpartanExtensions.Tests.StringExtensions.Mock;
-using SpartanExtensions;
 using System.Xml.Serialization;
-using System;
 
 namespace SpartanExtensions.Tests.StringExtensions
 {
@@ -28,6 +26,13 @@ namespace SpartanExtensions.Tests.StringExtensions
         {
             var type = "xxx".ToEnumBySpecifiedAttributeValue<Types, XmlEnumAttribute, string>(attribute => attribute.Name);
             Assert.IsTrue(type == null);
+        }
+
+        [TestMethod]
+        public void TransformingStringIntoSecureStringAndBackShouldFunctionCorrectly()
+        {
+            const string password = "admin";
+            Assert.AreEqual(password, password.ToSecureString().ToPlainString());
         }
     }
 }
