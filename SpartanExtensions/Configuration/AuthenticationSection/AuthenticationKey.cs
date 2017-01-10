@@ -7,8 +7,7 @@ namespace SpartanExtensions.Configuration.AuthenticationSection
 {
     public class AuthenticationKey : ConfigurationElement
     {
-        private const string ErrorMessageFormat =
-            "Missing \"{0}\" attribute for authentication key in your application's .config file. Please check your \"authentication\" section.";
+        private const string ErrorMessageFormat = "Missing \"{0}\" attribute for authentication key in your application's .config file. Please check your \"authentication\" section.";
 
         [ConfigurationProperty("name", IsRequired = true, IsKey = true)]
         public string Name
