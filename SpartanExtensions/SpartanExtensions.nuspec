@@ -14,5 +14,8 @@
 	<summary>$description$</summary>
     <copyright>$copyright$</copyright>
     <tags>extensions productivity helpers helper spartans spartan</tags>
+	<frameworkAssemblies>
+		<frameworkAssembly assemblyName="System.Configuration" />
+	</frameworkAssemblies>
   </metadata>
 </package>
