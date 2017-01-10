@@ -4,6 +4,21 @@ namespace SpartanExtensions.Configuration.AuthenticationSection
 {
     public class AuthenticationKeyCollection : ConfigurationElementCollection
     {
+        public new AuthenticationKey this[string key]
+        {
+            get
+            {
+                return (AuthenticationKey)BaseGet(key);
+            }
+            set
+            {
+                var removableKey = BaseGet(key);
+                if (removableKey != null)
+                    BaseRemove(removableKey);
+                BaseAdd(value);
+            }
+        }
+
         public AuthenticationKey this[int index]
         {
             get
