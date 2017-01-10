@@ -44,7 +44,7 @@ namespace SpartanExtensions.Configuration.AuthenticationSection
                 var password = this["password"];
                 if (password == null)
                     throw new Exception(string.Format(ErrorMessageFormat, "password"));
-                return password.ToString().ToSecureString();
+                return (SecureString)password;
             }
             set { this["password"] = value.ToPlainString(); }
         }

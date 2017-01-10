@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Globalization;
+using System.Security;
 
 namespace SpartanExtensions.Configuration.AuthenticationSection
 {
@@ -13,7 +14,7 @@ namespace SpartanExtensions.Configuration.AuthenticationSection
 
         public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
         {
-            return sourceType == typeof(string) || base.CanConvertFrom(context, sourceType);
+            return sourceType == typeof(SecureString) || base.CanConvertFrom(context, sourceType);
         }
     }
 }

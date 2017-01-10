@@ -19,5 +19,12 @@ namespace SpartanExtensions.Tests.Configuration.Authentication
             Assert.AreEqual(new AuthenticationSectionReader().AuthenticationSection.Keys["typefi"].Name,
                "typefi");
         }
+
+        [TestMethod]
+        public void SecureStringShouldReturnACorrectPassword()
+        {
+            Assert.AreEqual(new AuthenticationSectionReader().AuthenticationSection.Keys["typefi"].Password.ToPlainString(),
+               "password");
+        }
     }
 }
