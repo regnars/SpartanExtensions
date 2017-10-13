@@ -1,11 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2002
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpartanExtensions", "SpartanExtensions\SpartanExtensions.csproj", "{55B87E6D-C437-4743-BB32-88D6FDD71141}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpartanExtensions.Tests", "SpartanExtensions.Tests\SpartanExtensions.Tests.csproj", "{8C5C586F-0F90-487B-9C30-8011D4643FCE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{7F39549E-9AF8-4F80-A43D-4AFEC55C739B}"
+	ProjectSection(SolutionItems) = preProject
+		SpartanExtensions\SpartanExtensions.nuspec = SpartanExtensions\SpartanExtensions.nuspec
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,5 +29,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B0EC1D84-EC7D-4519-AFF8-3E71E3A9119B}
 	EndGlobalSection
 EndGlobal
