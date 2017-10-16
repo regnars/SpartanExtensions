@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 using SpartanExtensions.Exceptions;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 
 namespace SpartanExtensions
 {
@@ -43,6 +44,7 @@ namespace SpartanExtensions
         /// <summary>
         /// Throws exception object is null.
         /// </summary>
+        [ContractAnnotation("value:null => halt")]
         public static void AgainstNull(object value, string variableName, string methodName)
         {
             if (value == null)
@@ -79,27 +81,30 @@ namespace SpartanExtensions
         /// <summary>
         /// Throws exception if string is null or empty.
         /// </summary>
+        [ContractAnnotation("value:null => halt")]
         public static void AgainstStringIsNullOrEmpty(string value, string variableName, string methodName)
         {
-            if (String.IsNullOrEmpty(value))
+            if (string.IsNullOrEmpty(value))
                 throw new Exception($"String cannot be null or empty. Variable- {variableName}. Method- {methodName}.");
         }
 
         /// <summary>
         /// Throws exception if string contains a value.
         /// </summary>
+        [ContractAnnotation("value:notnull => halt")]
         public static void AgainstStringIsNOTNullOrEmpty(string value, string variableName, string methodName)
         {
-            if (!String.IsNullOrEmpty(value))
+            if (!string.IsNullOrEmpty(value))
                 throw new Exception($"String must be null or empty. Variable- {variableName}. Method- {methodName}.");
         }
 
         /// <summary>
         /// Throws exception if string is null or whitespace.
         /// </summary>
+        [ContractAnnotation("value:null => halt")]
         public static void AgainstStringIsNullOrWhiteSpace(string value, string variableName, string methodName)
         {
-            if (String.IsNullOrWhiteSpace(value))
+            if (string.IsNullOrWhiteSpace(value))
                 throw new Exception($"String cannot be null, empty, or consist only of white-space characters. Variable- {variableName}, Method- {methodName}.");
         }
 
@@ -115,6 +120,7 @@ namespace SpartanExtensions
         /// <summary>
         /// Throws exception if property's value is null.
         /// </summary>
+        [ContractAnnotation("obj:null => halt")]
         public static void GuardAgainstNull<T, TProp>(this T obj, Expression<Func<T, TProp>> field)
         {
             var value = obj.GetPropertyValue(field);
@@ -148,10 +154,11 @@ namespace SpartanExtensions
         /// <summary>
         /// Throws exception if property's value is null or empty string.
         /// </summary>
+        [ContractAnnotation("obj:null => halt")]
         public static void GuardAgainstStringIsNullOrEmpty<T, TProp>(this T obj, Expression<Func<T, TProp>> field)
         {
             var value = (string)obj.GetPropertyValue(field);
-            if (String.IsNullOrEmpty(value))
+            if (string.IsNullOrEmpty(value))
                 throw new UnexpectedObjectValueException<T>(field.GetFieldName(),
                     value, UnexpectedObjectValueExceptionReasons.StringIsNullOrEmpty);
         }
@@ -159,10 +166,11 @@ namespace SpartanExtensions
         /// <summary>
         /// Throws exception if property's value is not an empty string.
         /// </summary>
+        [ContractAnnotation("obj:notnull => halt")]
         public static void GuardAgainstStringIsNOTNullOrEmpty<T, TProp>(this T obj, Expression<Func<T, TProp>> field)
         {
             var value = (string)obj.GetPropertyValue(field);
-            if (!String.IsNullOrEmpty(value))
+            if (!string.IsNullOrEmpty(value))
                 throw new UnexpectedObjectValueException<T>(field.GetFieldName(),
                     value, UnexpectedObjectValueExceptionReasons.StringIsNOTNullOrEmpty);
         }
@@ -170,10 +178,11 @@ namespace SpartanExtensions
         /// <summary>
         /// Throws exception if property's value is null or whitespace string.
         /// </summary>
+        [ContractAnnotation("obj:null => halt")]
         public static void GuardAgainstStringIsNullOrWhiteSpace<T, TProp>(this T obj, Expression<Func<T, TProp>> field)
         {
             var value = (string)obj.GetPropertyValue(field);
-            if(String.IsNullOrWhiteSpace(value))
+            if(string.IsNullOrWhiteSpace(value))
                 throw new UnexpectedObjectValueException<T>(field.GetFieldName(),
                     value, UnexpectedObjectValueExceptionReasons.StringIsNullOrWhiteSpace);
         }
