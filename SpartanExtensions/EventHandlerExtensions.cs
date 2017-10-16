@@ -9,8 +9,7 @@ namespace SpartanExtensions
         /// </summary>
         public static void RaiseEvent(this EventHandler eventHandler, object sender)
         {
-            if (eventHandler != null)
-                eventHandler(sender, new EventArgs());
+            eventHandler?.Invoke(sender, new EventArgs());
         }
     }
 }

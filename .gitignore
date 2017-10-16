@@ -1,4 +1,10 @@
-/SpartanExtensions/bin/Debug
-/SpartanExtensions/obj/Debug
+/SpartanExtensions/bin/
+/SpartanExtensions/obj/
 /SpartanExtensions.v12.suo
 /SpartanExtensions/obj/Release
+/SpartanExtensions.Tests/bin/
+/SpartanExtensions.Tests/obj/
+*.user
+/.vs
+/packages/
+*.nupkg

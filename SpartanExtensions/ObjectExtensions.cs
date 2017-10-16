@@ -13,13 +13,13 @@ namespace SpartanExtensions
         /// </summary>
         public static object GetMemberValue<T, TMember>(this T obj, Expression<Func<T, TMember>> memberExp)
         {
-            return obj.GetMemberValue<T, TMember>(memberExp.GetFieldName());
+            return obj.GetMemberValue(memberExp.GetFieldName());
         }
 
         /// <summary>
         /// Gets member value using the reflection
         /// </summary>
-        public static object GetMemberValue<T, TMember>(this T obj, string memberName)
+        public static object GetMemberValue<T>(this T obj, string memberName)
         {
             var member = typeof(T).GetMember(memberName)
                 .FirstOrDefault();
@@ -45,7 +45,7 @@ namespace SpartanExtensions
         /// </summary>
         public static object GetPropertyValue<T, TProp>(this T obj, Expression<Func<T, TProp>> property)
         {
-            return obj.GetPropertyValue<T>(property.GetFieldName());
+            return obj.GetPropertyValue(property.GetFieldName());
         }
 
         /// <summary>
