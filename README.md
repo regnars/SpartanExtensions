@@ -21,6 +21,7 @@ To test NuGet package you can make a local NuGet feed on your machine. [Here](ht
 NuGet.CommandLine NuGet package is added to projects dependencies and should be available for use in PackageManagerConsole when dependencies are resolved.
 
 Some usefull nuget.exe commands:
+
 `nuget pack .\SpartanExtensions\SpartanExtensions.csproj -Prop Configuration=Release`
 `nuget add SpartanExtensions.X.X.XXXX.XXXXX.nupkg -source \\your\nuget\feed`
 
