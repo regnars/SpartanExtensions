@@ -8,6 +8,9 @@ using System.Collections.Generic;
 
 namespace SpartanExtensions
 {
+    /// <summary>
+    /// Guard dog sniffing if parameter or objects property has acceptable value. If not, exception is thrown.
+    /// </summary>
     public static class Guard
     {
         /// <summary>
@@ -20,12 +23,12 @@ namespace SpartanExtensions
             int maxDigitsBeforeComma, int minDigitsAfterComma, int maxDigitsAfterComma,
             string variableName, string methodName)
         {
-            var expression = String.Format("^(([0-9]{{{0},{1}}})|([0-9]{{{0},{1}}}[,.][0-9]{{{2},{3}}}))$",
+            var expression = string.Format("^(([0-9]{{{0},{1}}})|([0-9]{{{0},{1}}}[,.][0-9]{{{2},{3}}}))$",
                                         minDigitsBeforeComma, maxDigitsBeforeComma, minDigitsAfterComma, maxDigitsAfterComma);
             var regEx = new Regex(expression);
             if (!regEx.IsMatch(value.ToString(CultureInfo.InvariantCulture)))
-                throw new Exception(String.Format("Double value doesn't meet the requirements. Expected value: {0} - minimum digits before comma, {1} - maximum digits before comma, {2} - minimum digits after comma, {3} - maximum digits after comma. Actual value: {4}. Variable- {5}. Method- {6}.",
-                    minDigitsBeforeComma, maxDigitsBeforeComma, minDigitsAfterComma, maxDigitsAfterComma, value, variableName, methodName));
+                throw new Exception(
+                    $"Double value doesn't meet the requirements. Expected value: {minDigitsBeforeComma} - minimum digits before comma, {maxDigitsBeforeComma} - maximum digits before comma, {minDigitsAfterComma} - minimum digits after comma, {maxDigitsAfterComma} - maximum digits after comma. Actual value: {value}. Variable- {variableName}. Method- {methodName}.");
         }
 
         /// <summary>
@@ -34,8 +37,7 @@ namespace SpartanExtensions
         public static void AgainstEmptyEnumerable<T>(IEnumerable<T> value, string variableName, string methodName)
         {
             if (!value.Any())
-                throw new Exception(string.Format("Enumerable cannot be empty. Variable- {0}. Method- {1}.",
-                    variableName, methodName));
+                throw new Exception($"Enumerable cannot be empty. Variable- {variableName}. Method- {methodName}.");
         }
 
         /// <summary>
@@ -44,8 +46,7 @@ namespace SpartanExtensions
         public static void AgainstNull(object value, string variableName, string methodName)
         {
             if (value == null)
-                throw new Exception(string.Format("Object cannot be null. Variable- {0}. Method- {1}.",
-                    variableName, methodName));
+                throw new Exception($"Object cannot be null. Variable- {variableName}. Method- {methodName}.");
         }
 
         /// <summary>
@@ -54,8 +55,7 @@ namespace SpartanExtensions
         public static void AgainstZero(decimal value, string variableName, string methodName)
         {
             if (value == 0)
-                throw new Exception(string.Format("Value cannot be zero. Variable- {0}. Method- {1}.",
-                    variableName, methodName));
+                throw new Exception($"Value cannot be zero. Variable- {variableName}. Method- {methodName}.");
         }
 
         /// <summary>
@@ -64,8 +64,7 @@ namespace SpartanExtensions
         public static void AgainstNegativeOrZero(decimal value, string variableName, string methodName)
         {
             if (value <= 0)
-                throw new Exception(string.Format("value cannot be negative or zero. Variable- {0}. Method- {1}.",
-                    variableName, methodName));
+                throw new Exception($"value cannot be negative or zero. Variable- {variableName}. Method- {methodName}.");
         }
 
         /// <summary>
@@ -74,8 +73,7 @@ namespace SpartanExtensions
         public static void AgainstNegative(decimal value, string variableName, string methodName)
         {
             if (value < 0)
-                throw new Exception(string.Format("Value cannot be negative. Variable- {0}. Method- {1}.",
-                    variableName, methodName));
+                throw new Exception($"Value cannot be negative. Variable- {variableName}. Method- {methodName}.");
         }
 
         /// <summary>
@@ -84,8 +82,7 @@ namespace SpartanExtensions
         public static void AgainstStringIsNullOrEmpty(string value, string variableName, string methodName)
         {
             if (String.IsNullOrEmpty(value))
-                throw new Exception(string.Format("String cannot be null or empty. Variable- {0}. Method- {1}.",
-                    variableName, methodName));
+                throw new Exception($"String cannot be null or empty. Variable- {variableName}. Method- {methodName}.");
         }
 
         /// <summary>
@@ -94,8 +91,7 @@ namespace SpartanExtensions
         public static void AgainstStringIsNOTNullOrEmpty(string value, string variableName, string methodName)
         {
             if (!String.IsNullOrEmpty(value))
-                throw new Exception(string.Format("String must be null or empty. Variable- {0}. Method- {1}.",
-                    variableName, methodName));
+                throw new Exception($"String must be null or empty. Variable- {variableName}. Method- {methodName}.");
         }
 
         /// <summary>
@@ -104,8 +100,7 @@ namespace SpartanExtensions
         public static void AgainstStringIsNullOrWhiteSpace(string value, string variableName, string methodName)
         {
             if (String.IsNullOrWhiteSpace(value))
-                throw new Exception(string.Format("String cannot be null, empty, or consist only of white-space characters. Variable- {0}, Method- {1}.",
-                    variableName, methodName));
+                throw new Exception($"String cannot be null, empty, or consist only of white-space characters. Variable- {variableName}, Method- {methodName}.");
         }
 
         /// <summary>
@@ -114,8 +109,7 @@ namespace SpartanExtensions
         public static void AgainstEmptyGuid(Guid value, string variableName, string methodName)
         {
             if (value == Guid.Empty)
-                throw new Exception(string.Format("Guid cannot be empty. Variable- {0}. Method- {1}.",
-                    variableName, methodName));
+                throw new Exception($"Guid cannot be empty. Variable- {variableName}. Method- {methodName}.");
         }
 
         /// <summary>

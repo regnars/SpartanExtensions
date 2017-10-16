@@ -24,8 +24,7 @@ namespace SpartanExtensions
             }
             finally
             {
-                if (stream != null)
-                    stream.Close();
+                stream?.Close();
             }
 
             //file is not locked

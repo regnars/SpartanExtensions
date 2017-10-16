@@ -15,8 +15,8 @@ namespace SpartanExtensions
         {
             var appKeyValue = ConfigurationManager.AppSettings[appKey];
 
-            if (String.IsNullOrEmpty(appKeyValue))
-                throw new Exception(string.Format("Please specify app key \"{0}\" in your application's .config file.", appKey));
+            if (string.IsNullOrEmpty(appKeyValue))
+                throw new Exception($"Please specify app key \"{appKey}\" in your application's .config file.");
 
             return appKeyValue;
         }

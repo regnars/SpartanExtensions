@@ -10,7 +10,7 @@ namespace SpartanExtensions
         /// </summary>
         public static string GetCurrentMethodFullName<T>(this MethodBase method)
         {
-            return (string.Format("{0}.{1}", typeof(T).FullName, method.Name));
+            return $"{typeof(T).FullName}.{method.Name}";
         }
 
         /// <summary>
@@ -18,7 +18,7 @@ namespace SpartanExtensions
         /// </summary>
         public static string GetCurrentMethodFullName(this MethodBase method, Type type)
         {
-            return (string.Format("{0}.{1}", type.FullName, method.Name));
+            return $"{type.FullName}.{method.Name}";
         }
     }
 }

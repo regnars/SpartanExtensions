@@ -28,10 +28,8 @@ namespace SpartanExtensions
                 return null;
 
             var attribute = (TAttribute)member.GetCustomAttributes(inherit: false).FirstOrDefault();
-            if (attribute == null)
-                return null;
 
-            return (string)attribute.GetMemberValue(field);
+            return (string) attribute?.GetMemberValue(field);
         }
 
     }
