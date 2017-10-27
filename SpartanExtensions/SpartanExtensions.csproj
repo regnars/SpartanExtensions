@@ -54,6 +54,7 @@
     <Compile Include="ConfigurationManagerExtensions.cs" />
     <Compile Include="Configuration\AuthenticationSection\AuthenticationSectionReader.cs" />
     <Compile Include="Configuration\AuthenticationSection\SecureStringTypeConverter.cs" />
+    <Compile Include="ConfigurationManagerHelper.cs" />
     <Compile Include="DataToCSV\DataToCsv.cs" />
     <Compile Include="DataToCSV\Headers\CustomHeader.cs" />
     <Compile Include="DataToCSV\Headers\CustomIndexHeader.cs" />
