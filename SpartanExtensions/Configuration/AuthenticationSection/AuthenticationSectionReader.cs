@@ -1,6 +1,4 @@
-﻿using System.Configuration;
-
-namespace SpartanExtensions.Configuration.AuthenticationSection
+﻿namespace SpartanExtensions.Configuration.AuthenticationSection
 {
     public class AuthenticationSectionReader
     {
@@ -8,7 +6,7 @@ namespace SpartanExtensions.Configuration.AuthenticationSection
 
         public AuthenticationSectionReader()
         {
-            AuthenticationSection = ConfigurationManager.GetSection("authentication") as AuthenticationSection;
+            AuthenticationSection = System.Configuration.ConfigurationManager.GetSection("authentication") as AuthenticationSection;
         }
     }
 }

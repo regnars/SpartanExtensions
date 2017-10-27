@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Configuration;
 
 namespace SpartanExtensions
 {
     /// <summary>
     /// Wrapping ConfigurationManager functionality with additional checks
     /// </summary>
-    public static class ConfigurationManagerHelper
+    public static class ConfigurationManager
     {
         /// <summary>
         /// Gets the values associated with the specified key from the System.Collections.Specialized.NameValueCollection
@@ -23,7 +22,7 @@ namespace SpartanExtensions
         /// </exception>
         public static string GetAppSettingStringOrException(string key)
         {
-            var value = ConfigurationManager.AppSettings.Get(key);
+            var value = System.Configuration.ConfigurationManager.AppSettings.Get(key);
 
             if (string.IsNullOrEmpty(value))
             {
@@ -41,7 +40,7 @@ namespace SpartanExtensions
         /// <exception cref="Exception">Please specify connection string \"{key}\" in your application's .config file.</exception>
         public static string GetConnectionStringOrException(string key)
         {
-            var value = ConfigurationManager.ConnectionStrings[key]?.ConnectionString;
+            var value = System.Configuration.ConfigurationManager.ConnectionStrings[key]?.ConnectionString;
 
             if (string.IsNullOrEmpty(value))
             {

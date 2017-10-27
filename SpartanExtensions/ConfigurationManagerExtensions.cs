@@ -21,7 +21,7 @@ namespace SpartanExtensions
         /// </exception>
         public string GetAppKeyValue(string appKey)
         {
-            return ConfigurationManagerHelper.GetAppSettingStringOrException(appKey);
+            return ConfigurationManager.GetAppSettingStringOrException(appKey);
         }
     }
 }
